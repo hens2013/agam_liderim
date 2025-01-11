@@ -1,0 +1,44 @@
+version: "3.11"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app_network
+  db:
+    image: postgres:14
+    container_name: postgres
+    hostname: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/employers.csv:/docker-entrypoint-initdb.d/employers.csv:ro
+      - ./scripts/employees.csv:/docker-entrypoint-initdb.d/employees.csv:ro
+    networks:
+      - app_network
+
+  redis:
+    image: redis:6
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - app_network
+
+
+
+volumes:
+  postgres_data:
+networks:
+  app_network:
