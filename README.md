@@ -1,4 +1,4 @@
-
+*** Before you activate the project unzip the file inside the zip in the scripts directory 
 # Project Name
 
 ## Overview
