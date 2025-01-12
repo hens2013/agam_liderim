@@ -15,11 +15,15 @@ services:
       - app_network
   db:
     image: postgres:14
-    container_name: postgres
+    container_name: postgres_db
     hostname: postgres
     restart: always
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${postgres}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/employers.csv:/docker-entrypoint-initdb.d/employers.csv:ro
@@ -33,6 +37,9 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     networks:
       - app_network
 
@@ -42,3 +49,5 @@ volumes:
   postgres_data:
 networks:
   app_network:
+    driver: bridge
+
