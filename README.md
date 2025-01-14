@@ -51,7 +51,7 @@ This project is a containerized application built using Docker and Docker Compos
 
 ### Authentication Endpoints
 #### 1. **Login**
-   - **URL:** `/auth/login`
+   - **URL:** `/auth/token`
    - **Method:** `POST`
    - **Body:**
      ```json
@@ -69,21 +69,20 @@ This project is a containerized application built using Docker and Docker Compos
      ```
 
 #### 2. **Register**
-   - **URL:** `/auth/register`
+   - **URL:** `/auth/create-user`
    - **Method:** `POST`
    - **Body:**
      ```json
      {
        "username": "string",
        "password": "string",
-       "email": "string"
      }
      ```
 
 ---
 
 ### Employee Endpoints
-#### 1. **Get All Employees**
+#### 1. **Search Employees**
    - **URL:** `/employees/`
    - **Method:** `GET`
    - **Response:**
@@ -103,37 +102,49 @@ This project is a containerized application built using Docker and Docker Compos
    - **Body:**
      ```json
      {
-       "name": "string",
+       "personal_id":"int",
+        "frist_name":"string",
+       "last_name": "string",
        "position": "string"
      }
      ```
    - **Response:** Status Code `201 Created`
 
+#### 3. **Attach employee**
+   - **URL:** `/employees/attach`
+   - **Method:** `PATCH`
+   - ```json
+     {
+       "personal_id":"int",
+       "government_id":"int"
+     }
+     ```
+         
+
 ---
 
 ### Employer Endpoints
-#### 1. **Get All Employers**
-   - **URL:** `/employers/`
+#### 1. **Search Employers**
+   - **URL:** `/employers/get_employers`
    - **Method:** `GET`
    - **Response:**
      ```json
      [
        {
-         "id": "int",
-         "company_name": "string",
-         "industry": "string"
+         "employer_name": "string",
+         "government_id": "int",
        }
      ]
      ```
 
 #### 2. **Add Employer**
-   - **URL:** `/employers/add`
+   - **URL:** `/employers/`
    - **Method:** `POST`
    - **Body:**
      ```json
      {
-       "company_name": "string",
-       "industry": "string"
+       "employer_name": "string",
+       "government_id": "int"
      }
      ```
    - **Response:** Status Code `201 Created`
